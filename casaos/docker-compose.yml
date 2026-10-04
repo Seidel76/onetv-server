@@ -1,0 +1,36 @@
+# OneTV Server for CasaOS / ZimaOS: App Store › « + » › Install a customized app › Import.
+name: onetv-server
+services:
+  onetv-server:
+    image: ghcr.io/seidel76/onetv-server:latest
+    container_name: onetv-server
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Paris
+      ONETV_NAME: CasaOS
+    volumes:
+      - type: bind
+        source: /DATA/AppData/onetv-server
+        target: /data
+      - type: bind
+        source: /DATA/Media/OneTV Server
+        target: /recordings
+    x-casaos:
+      volumes:
+        - container: /data
+          description: { en_us: Database and settings }
+        - container: /recordings
+          description: { en_us: Recordings }
+x-casaos:
+  architectures: [amd64, arm64, arm]
+  main: onetv-server
+  author: OneTV Connect
+  developer: OneTV Connect
+  category: Media
+  icon: https://onetvconnect.com/assets/brand/onetv-server-512.png
+  tagline: { en_us: TV recording server for OneTV Connect, fr_fr: Serveur d’enregistrement TV pour OneTV Connect }
+  description: { en_us: "Schedule recordings in OneTV Connect (iPhone, iPad, Apple TV, Mac); this server records them, even when your devices are off. Included with OneTV Connect Pro.", fr_fr: "Programmez vos enregistrements dans OneTV Connect (iPhone, iPad, Apple TV, Mac) ; ce serveur les enregistre, même appareils éteints. Inclus avec OneTV Connect Pro." }
+  title: { en_us: OneTV Server }
+  index: /
+  port_map: ""

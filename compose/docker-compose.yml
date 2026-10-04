@@ -1,0 +1,25 @@
+# OneTV Server — Docker Compose (Synology Container Manager, QNAP Container
+# Station, TrueNAS SCALE, UGREEN, TerraMaster, Asustor, OpenMediaVault, Portainer…)
+#
+# Replace the two folders on the left of « : » by folders of your NAS, e.g.
+#   Synology   /volume1/docker/onetv-server            /volume1/video/OneTV Server
+#   QNAP       /share/Container/onetv-server           /share/Multimedia/OneTV Server
+#   TrueNAS    /mnt/tank/apps/onetv-server             /mnt/tank/media/OneTV Server
+#   UGREEN     /volume1/docker/onetv-server            /volume1/Videos/OneTV Server
+#
+# Host networking is REQUIRED: the iPhone, iPad, Apple TV and Mac find the
+# server with Bonjour/mDNS, which does not cross Docker's bridge network.
+# restart: unless-stopped = OneTV Server starts with the NAS.
+services:
+  onetv-server:
+    image: ghcr.io/seidel76/onetv-server:latest
+    container_name: onetv-server
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Paris            # your time zone: recordings follow local time
+      ONETV_NAME: "NAS"           # name shown in OneTV Connect
+    volumes:
+      - /volume1/docker/onetv-server:/data
+      - /volume1/video/OneTV Server:/recordings
+    # Ports (host network): 47820/tcp (API), 47823/udp (discovery), 5353/udp (mDNS)

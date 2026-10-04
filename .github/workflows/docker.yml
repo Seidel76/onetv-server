@@ -1,0 +1,55 @@
+# Publishes ghcr.io/seidel76/onetv-server for every OneTV Server release
+# (amd64, arm64, armv7), from the published, checksum-verified binaries.
+# Runs every 6 hours (no-op when the image already exists) or by hand.
+name: Docker image
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version (empty = latest published)"
+        required: false
+permissions:
+  contents: read
+  packages: write
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version
+        id: v
+        run: |
+          v="${{ github.event.inputs.version }}"
+          [ -n "$v" ] || v=$(curl -fsSL https://onetvconnect.com/server/dl/latest/VERSION | tr -d ' \r\n')
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          if docker manifest inspect "ghcr.io/seidel76/onetv-server:$v" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: docker/setup-qemu-action@v3
+        if: steps.v.outputs.exists != 'true'
+      - uses: docker/setup-buildx-action@v3
+        if: steps.v.outputs.exists != 'true'
+      - uses: docker/login-action@v3
+        if: steps.v.outputs.exists != 'true'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        if: steps.v.outputs.exists != 'true'
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          build-args: VERSION=${{ steps.v.outputs.version }}
+          push: true
+          tags: |
+            ghcr.io/seidel76/onetv-server:${{ steps.v.outputs.version }}
+            ghcr.io/seidel76/onetv-server:latest
+          labels: |
+            org.opencontainers.image.title=OneTV Server
+            org.opencontainers.image.description=TV recording server for OneTV Connect
+            org.opencontainers.image.url=https://onetvconnect.com/server
+            org.opencontainers.image.source=https://github.com/Seidel76/onetv-server
+            org.opencontainers.image.version=${{ steps.v.outputs.version }}

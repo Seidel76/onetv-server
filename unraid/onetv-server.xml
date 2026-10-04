@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>onetv-server</Name>
+  <Repository>ghcr.io/seidel76/onetv-server:latest</Repository>
+  <Registry>https://github.com/Seidel76/onetv-server/pkgs/container/onetv-server</Registry>
+  <Network>host</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://onetvconnect.com/server</Support>
+  <Project>https://onetvconnect.com/server</Project>
+  <Overview>TV recording server for OneTV Connect (iPhone, iPad, Apple TV, Mac). Schedule recordings from the app; this server records them to your array, even when your devices are off. Included with OneTV Connect Pro. No setup: the apps find the server on your network and pair by themselves.</Overview>
+  <Category>MediaServer:Video MediaApp:Video</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/Seidel76/onetv-server/main/unraid/onetv-server.xml</TemplateURL>
+  <Icon>https://onetvconnect.com/assets/brand/onetv-server-512.png</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs>serve --name Unraid</PostArgs>
+  <Requires/>
+  <Config Name="Recordings" Target="/recordings" Default="/mnt/user/recordings/OneTV Server" Mode="rw" Description="Folder where the recordings are written." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/recordings/OneTV Server</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/onetv-server" Mode="rw" Description="Database, certificates and settings." Type="Path" Display="advanced" Required="true" Mask="false">/mnt/user/appdata/onetv-server</Config>
+  <Config Name="Time zone" Target="TZ" Default="Europe/Paris" Mode="" Description="Recordings follow this time zone." Type="Variable" Display="always" Required="false" Mask="false">Europe/Paris</Config>
+</Container>
