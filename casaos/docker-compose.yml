@@ -1,4 +1,6 @@
 # OneTV Server for CasaOS / ZimaOS: App Store › « + » › Install a customized app › Import.
+# Host network: 47820/tcp, 47821/tcp (web page), 47823/udp, 5353/udp, 47824/udp (access away from home by
+# NAT hole punching — nothing to open or forward on the router).
 name: onetv-server
 services:
   onetv-server:
@@ -33,4 +35,4 @@ x-casaos:
   description: { en_us: "Schedule recordings in OneTV Connect (iPhone, iPad, Apple TV, Mac); this server records them, even when your devices are off. Included with OneTV Connect Pro.", fr_fr: "Programmez vos enregistrements dans OneTV Connect (iPhone, iPad, Apple TV, Mac) ; ce serveur les enregistre, même appareils éteints. Inclus avec OneTV Connect Pro." }
   title: { en_us: OneTV Server }
   index: /
-  port_map: ""
+  port_map: "47821"

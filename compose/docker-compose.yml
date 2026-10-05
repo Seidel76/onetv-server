@@ -22,4 +22,7 @@ services:
     volumes:
       - /volume1/docker/onetv-server:/data
       - /volume1/video/OneTV Server:/recordings
-    # Ports (host network): 47820/tcp (API), 47823/udp (discovery), 5353/udp (mDNS)
+    # Web page for your home network (recordings in progress, stop…): http://<NAS address>:47821/
+    # Ports (host network): 47820/tcp (API), 47821/tcp (web page), 47823/udp (discovery), 5353/udp (mDNS),
+    # 47824/udp (access away from home: NAT hole punching started by the server —
+    # NOTHING to open or forward on your router or NAS firewall's WAN side).

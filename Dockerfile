@@ -36,8 +36,9 @@ COPY --from=fetch /out/onetv-server /usr/bin/onetv-server
 COPY --from=fetch /out/data /data
 COPY --from=fetch /out/recordings /recordings
 ENV ONETV_DATA=/data \
+    ONETV_WEB_PORT=47821 \
     ONETV_RECORDINGS=/recordings
-EXPOSE 47820/tcp 47823/udp 5353/udp
+EXPOSE 47820/tcp 47821/tcp 47823/udp 47824/udp 5353/udp
 VOLUME ["/data", "/recordings"]
 ENTRYPOINT ["/usr/bin/onetv-server"]
 CMD ["serve", "--data", "/data", "--recordings", "/recordings"]

@@ -8,9 +8,9 @@
   <Privileged>false</Privileged>
   <Support>https://onetvconnect.com/server</Support>
   <Project>https://onetvconnect.com/server</Project>
-  <Overview>TV recording server for OneTV Connect (iPhone, iPad, Apple TV, Mac). Schedule recordings from the app; this server records them to your array, even when your devices are off. Included with OneTV Connect Pro. No setup: the apps find the server on your network and pair by themselves.</Overview>
+  <Overview>TV recording server for OneTV Connect (iPhone, iPad, Apple TV, Mac). Schedule recordings from the app; this server records them to your array, even when your devices are off. Included with OneTV Connect Pro. No setup: the apps find the server on your network and pair by themselves. Away from home the apps reach your recordings through the OneTV relay or a direct encrypted connection: nothing to open or forward on your router. WebUI: see and manage recordings in progress (programme, size, recording time) and stop them.</Overview>
   <Category>MediaServer:Video MediaApp:Video</Category>
-  <WebUI/>
+  <WebUI>http://[IP]:[PORT:47821]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/Seidel76/onetv-server/main/unraid/onetv-server.xml</TemplateURL>
   <Icon>https://onetvconnect.com/assets/brand/onetv-server-512.png</Icon>
   <ExtraParams>--restart unless-stopped</ExtraParams>
@@ -18,5 +18,6 @@
   <Requires/>
   <Config Name="Recordings" Target="/recordings" Default="/mnt/user/recordings/OneTV Server" Mode="rw" Description="Folder where the recordings are written." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/recordings/OneTV Server</Config>
   <Config Name="Data" Target="/data" Default="/mnt/user/appdata/onetv-server" Mode="rw" Description="Database, certificates and settings." Type="Path" Display="advanced" Required="true" Mask="false">/mnt/user/appdata/onetv-server</Config>
+  <Config Name="Web page port" Target="ONETV_WEB_PORT" Default="47821" Mode="" Description="Management page for your home network (WebUI): recordings in progress, stop, upcoming, finished. 0 turns it off." Type="Variable" Display="advanced" Required="false" Mask="false">47821</Config>
   <Config Name="Time zone" Target="TZ" Default="Europe/Paris" Mode="" Description="Recordings follow this time zone." Type="Variable" Display="always" Required="false" Mask="false">Europe/Paris</Config>
 </Container>

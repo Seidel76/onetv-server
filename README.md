@@ -11,6 +11,16 @@ docker run -d --name onetv-server --network host --restart unless-stopped \
 ```
 
 Host networking is required (Bonjour/mDNS discovery). `--restart unless-stopped` = starts with the machine.
+
+**Away from home**: the apps reach the recordings through the OneTV relay `dvr.onetvconnect.com`
+(end-to-end encrypted, it stores nothing) or a direct encrypted connection it negotiates (UDP 47824,
+NAT hole punching started by the server). **Nothing to open or forward on your router.** Each device
+turns remote access on in its own settings; the server can refuse it (`remoteHub`).
+
+**Web page**: `http://<address>:47821/` on your home network (Unraid: the container's **WebUI**) shows
+the recording in progress (programme, channel, size, recording time, stream state) with Stop / +30 min,
+upcoming and finished recordings. Other computers enter the access code shown in OneTV Connect
+(Settings › Recording › Advanced) or by `docker exec onetv-server onetv-server web-code`.
 Image: `ghcr.io/seidel76/onetv-server` (amd64, arm64, armv7), rebuilt for every release from the
 published, checksum-verified binaries.
 
